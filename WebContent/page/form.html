@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8" />
+<title>作品上传</title>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript">
+var picUri = '/vote/page/images/';
+$(function(){
+	var url = '/vote/vote/read';
+	$.ajax({
+		url : url,
+		type : 'post',
+		dataType : 'json',
+		success : function(data) {success(data);},
+		error : function() {}
+	});
+}); 
+
+function success(data) {
+	var str = '';
+	for(var o in data){
+		str = '<form action="/vote/vote/update" enctype="multipart/form-data" method="post" style="width:24%;margin:20px 0.5% 30px;vertical-align: top;float:left;">' +
+				'<div><img src="'+picUri+data[o].pic+'" border="1" height="154" alt="暂无图片" style="width:100%;" /></div><br/>' +
+				'作品名称：<input type="text" name="picName" value="'+data[o].picName+'"><br/> <br/>  ' +
+				//'作者：&nbsp;&nbsp;<input type="text" name="author" value="'+data[o].author+'"><br/> <br/> '  +
+				'作品描述：<input type="text" name="description" value="'+data[o].description+'"><br/> <br/> ' +
+				'摄影作品：<input type="file" name="pic"><br/><br/> ' +
+				'<input type="hidden" name="id" value="'+data[o].id+'"> '+
+				'<input type="submit" value="更新"/>&nbsp;' +
+				'<input type="button" value="删除图片" onclick="deletePic('+data[o].id+')" />&nbsp;' +
+				'<input type="button" value="删除作品" onclick="deleteWork('+data[o].id+')" />' +
+			  '</form>';
+		$('#div').append(str);
+    }
+}
+function deletePic(id) {
+	var r=confirm("是否删除该作品");
+	if (r==false) {
+		return;
+	}
+	var url = '/vote/vote/deletePic';
+	$.ajax({
+		url : url,
+		type : 'post',
+		dataType : 'json',
+		data:{json:'{"id":'+id+'}'},
+		success : function(data) {
+			 location.reload();
+		},
+		error : function() {fail(data);}
+	});
+}
+
+function deleteWork(id) {
+	var r=confirm("是否删除该作品");
+	if (r==false) {
+		return;
+	}
+	var url = '/vote/vote/deleteWork';
+	$.ajax({
+		url : url,
+		type : 'post',
+		dataType : 'json',
+		data:{json:'{"id":'+id+'}'},
+		success : function(data) {
+			 location.reload();
+		},
+		error : function() {}
+	});
+}
+</script>
+</head>
+<body>
+	<div style="width:1200px; margin:0 auto;">
+		<form action="/vote/vote/create" enctype="multipart/form-data" method="post">
+			作品名称：<input type="text" name="picName" /><br/> <br/> 
+	<!--  	作者：&nbsp;&nbsp;<input type="text" name="author" /><br/> <br/> -->	
+			作品描述：<input type="text" name="description" /><br/> <br/> 
+			摄影作品：<input type="file" name="pic" /><br/><br/>  
+			<input type="submit" value="添加作品" />
+		</form><br/><br/><br/><br/>
+		<div id="div" >
+		</div>
+	</div>
+	
+</body>
+</html>
