@@ -99,8 +99,6 @@ class DBConnectionManager {
 			e.printStackTrace();
 		} finally {
 		}
-		
-		
 		return null;
 	}
 
