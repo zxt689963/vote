@@ -17,7 +17,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.ok8.common.db.DBManipulation;
 import com.ok8.common.global.ErrorCode;
-import com.ok8.common.utils.Result;
 import com.ok8.common.utils.StringUtils;
 import com.ok8.front.dao.VoteDao;
 
